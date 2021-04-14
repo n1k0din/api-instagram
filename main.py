@@ -1,8 +1,11 @@
 import requests
+from pathlib import Path
 
 
 def main():
-    filename = 'hubble.jpg'
+    Path("images/").mkdir(parents=True, exist_ok=True)
+
+    filename = 'images/hubble.jpg'
     url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
 
     response = requests.get(url)
