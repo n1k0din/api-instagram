@@ -2,17 +2,28 @@ import requests
 from pathlib import Path
 
 
-def main():
-    Path("images/").mkdir(parents=True, exist_ok=True)
+IMAGES_DIR = 'images/'
 
-    filename = 'images/hubble.jpg'
-    url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
+
+def download_img(url, filename):
+    full_path = f'{IMAGES_DIR}{filename}'
 
     response = requests.get(url)
     response.raise_for_status()
 
-    with open(filename, 'wb') as file:
+    with open(full_path, 'wb') as file:
         file.write(response.content)
+
+
+def main():
+    Path(IMAGES_DIR).mkdir(parents=True, exist_ok=True)
+
+    filename = 'hubble.jpg'
+    url = 'https://upload.wikimedia.org/wikipedia/commons/3/3f/HST-SM4.jpeg'
+
+    download_img(url, filename)
+
+
 
 
 if __name__ == '__main__':
