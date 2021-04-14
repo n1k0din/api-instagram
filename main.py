@@ -33,10 +33,21 @@ def fetch_spacex_last_launch():
         download_img(photo_url, filename)
 
 
+def get_hubble_image_urls(id=1):
+    url = f'http://hubblesite.org/api/v3/image/{id}'
+    response = requests.get(url)
+    response.raise_for_status()
+
+    image_files = response.json()['image_files']
+    return [f'https:{image_file["file_url"]}' for image_file in image_files]
+
+
 def main():
     Path(IMAGES_DIR).mkdir(parents=True, exist_ok=True)
 
     fetch_spacex_last_launch()
+
+    print(get_hubble_image_urls())
 
 
 if __name__ == '__main__':
