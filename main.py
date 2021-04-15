@@ -1,8 +1,10 @@
+import os
 import os.path
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
 
 import requests
+from PIL import Image
 
 
 IMAGES_DIR = 'images/'
@@ -67,18 +69,33 @@ def download_hubble_collection(collection='all'):
 def get_file_extension(file_url):
     unquoted_url = unquote(file_url)
     _, _, path, _, _ = urlsplit(unquoted_url)
-    _, tail = os.path.split(path)
-    _, ext = os.path.splitext(tail)
+    _, filename = os.path.split(path)
+    _, ext = os.path.splitext(filename)
 
     return ext
+
+
+def resize_and_convert_images(width=1080):
+    files = os.listdir(IMAGES_DIR)
+    for file in files:
+        src_filepath = f'{IMAGES_DIR}{file}'
+        name, ext = os.path.splitext(file)
+        dst_filepath = f'{IMAGES_DIR}{name}.jpg'
+
+        try:
+            image = Image.open(src_filepath)
+            rgb_image = image.convert('RGB')
+            rgb_image.thumbnail((width, width))
+            rgb_image.save(dst_filepath, format='JPEG')
+
+        except Exception as e:
+            print(e)
 
 
 def main():
     Path(IMAGES_DIR).mkdir(parents=True, exist_ok=True)
 
-    fetch_spacex_last_launch()
-
-    download_hubble_collection(collection='spacecraft')
+    resize_and_convert_images()
 
 
 if __name__ == '__main__':
