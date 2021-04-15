@@ -46,10 +46,22 @@ def get_hubble_image_urls(image_id):
 
 
 def download_hubble_image(image_id):
-    image_url = get_hubble_image_urls(image_id)[::-1]
+    image_url = get_hubble_image_urls(image_id)[-1]
     ext = get_file_extension(image_url)
     filename = f'{image_id}{ext}'
     download_img(image_url, filename)
+
+
+def download_hubble_collection(collection='all'):
+    url = f'http://hubblesite.org/api/v3/images/{collection}'
+    response = requests.get(url)
+    response.raise_for_status()
+
+    img_ids = [img['id'] for img in response.json()]
+
+    for img_id in img_ids:
+        print(f'downloading {img_id}...')
+        download_hubble_image(img_id)
 
 
 def get_file_extension(file_url):
@@ -66,7 +78,7 @@ def main():
 
     fetch_spacex_last_launch()
 
-    download_hubble_image(2)
+    download_hubble_collection(collection='spacecraft')
 
 
 if __name__ == '__main__':
