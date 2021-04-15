@@ -1,4 +1,7 @@
 # Публикация фоток от Хаббла в инстач
+- `fetch_hubble.py` собирает фотки хаббла
+- `fetch_spacex.py` собирает фотки spacex
+- `main.py` конвертирует, изменяет размер и отправляет в инстаграм
 
 ## Установка
 
@@ -30,7 +33,15 @@
 
 ## Запуск
 ```
-python main.py
+python fetch_spacex.py
+```
+
+```
+python fetch_hubble.py
+```
+
+```
+python main.py instagram_login instagram_password
 ```
 
 ### Цель проекта
