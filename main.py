@@ -1,3 +1,4 @@
+import argparse
 import os
 import os.path
 from pathlib import Path
@@ -8,6 +9,14 @@ from PIL import Image
 
 
 IMAGES_DIR = 'images/'
+
+
+def create_argument_parser():
+    parser = argparse.ArgumentParser(description='Постит картинки в инстач')
+    parser.add_argument('login', help='логин в инстаграм')
+    parser.add_argument('password', help='пароль в инстаграм')
+
+    return parser
 
 
 def download_img(url, filename):
@@ -94,6 +103,8 @@ def resize_and_convert_images(width=1080):
 
 def main():
     Path(IMAGES_DIR).mkdir(parents=True, exist_ok=True)
+
+    args = create_argument_parser()
 
     resize_and_convert_images()
 
