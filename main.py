@@ -40,10 +40,10 @@ def download_img(url, filename):
 
 
 def resize_and_convert_images(width=1080):
-    files = os.listdir(IMAGES_DIR)
-    for file in files:
-        src_filepath = f'{IMAGES_DIR}{file}'
-        name, ext = os.path.splitext(file)
+    filenames = os.listdir(IMAGES_DIR)
+    for filename in filenames:
+        src_filepath = f'{IMAGES_DIR}{filename}'
+        name, ext = os.path.splitext(filename)
         dst_filepath = f'{IMAGES_DIR}{name}.jpg'
 
         try:
@@ -58,9 +58,9 @@ def resize_and_convert_images(width=1080):
 
 
 def post_images_to_instagram(bot, timeout=10):
-    files = os.listdir(IMAGES_DIR)
-    for file in files:
-        img_path = f'{IMAGES_DIR}{file}'
+    filenames = os.listdir(IMAGES_DIR)
+    for filename in filenames:
+        img_path = f'{IMAGES_DIR}{filename}'
         caption = 'another hubble image'
 
         bot.upload_photo(img_path, caption=caption)
