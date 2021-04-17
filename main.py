@@ -82,8 +82,9 @@ def main():
     bot = Bot()
     bot.login(username=login, password=password, ask_for_code=True)
 
+    caption = 'Just another space picture'
+
     try:
-        caption = 'Just another space picture'
         post_images_to_instagram(bot, IMAGES_DIR, caption)
     except RuntimeError:
         exit(1)
