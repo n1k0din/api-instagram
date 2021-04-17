@@ -75,18 +75,18 @@ def post_images_to_instagram(bot, images_dir, caption, timeout=10):
 def main():
     Path(IMAGES_DIR).mkdir(parents=True, exist_ok=True)
 
-    resize_and_convert_images()
+    resize_and_convert_images(IMAGES_DIR)
 
-    # login, password = get_login_password()
-    #
-    # bot = Bot()
-    # bot.login(username=login, password=password, ask_for_code=True)
-    #
-    # try:
-    #     caption = 'Just another space picture'
-    #     post_images_to_instagram(bot, IMAGES_DIR, caption)
-    # except RuntimeError:
-    #     exit(1)
+    login, password = get_login_password()
+
+    bot = Bot()
+    bot.login(username=login, password=password, ask_for_code=True)
+
+    try:
+        caption = 'Just another space picture'
+        post_images_to_instagram(bot, IMAGES_DIR, caption)
+    except RuntimeError:
+        exit(1)
 
 
 if __name__ == '__main__':
