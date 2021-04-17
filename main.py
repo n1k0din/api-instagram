@@ -53,7 +53,7 @@ def resize_and_convert_images(width=1080):
             os.remove(src_filepath)
             rgb_image.save(dst_filepath, format='JPEG')
 
-        except Exception as e:
+        except IOError as e:
             print(e)
 
 
@@ -76,11 +76,11 @@ def main():
 
     resize_and_convert_images()
 
-    login, password = get_login_password()
-
-    bot = Bot()
-    bot.login(username=login, password=password, ask_for_code=True)
-    post_images_to_instagram(bot)
+    # login, password = get_login_password()
+    #
+    # bot = Bot()
+    # bot.login(username=login, password=password, ask_for_code=True)
+    # post_images_to_instagram(bot)
 
 
 if __name__ == '__main__':
