@@ -27,7 +27,7 @@ def get_hubble_image_urls(image_id):
 def download_hubble_image(image_id):
     image_url = get_hubble_image_urls(image_id)[-1]
     ext = get_file_extension(image_url)
-    filename = f'{image_id}{ext}'
+    filename = f'hubble_{image_id}{ext}'
     download_img(image_url, filename)
 
 

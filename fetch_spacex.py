@@ -14,7 +14,7 @@ def get_spacex_last_launch_photo_urls():
 def fetch_spacex_last_launch():
     urls = get_spacex_last_launch_photo_urls()
 
-    filename_template = 'spacex{}.jpg'
+    filename_template = 'spacex_{}.jpg'
 
     for num, photo_url in enumerate(urls, start=1):
         filename = filename_template.format(num)
