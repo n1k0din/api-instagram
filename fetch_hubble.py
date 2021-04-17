@@ -1,3 +1,4 @@
+import logging
 import os
 from urllib.parse import unquote, urlsplit
 
@@ -39,7 +40,7 @@ def download_hubble_collection(collection='all'):
     img_ids = [img['id'] for img in response.json()]
 
     for img_id in img_ids:
-        print(f'downloading {img_id}...')
+        logging.info(f'Downloading {img_id}...')
         download_hubble_image(img_id)
 
 

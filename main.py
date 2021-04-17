@@ -1,7 +1,9 @@
 import argparse
+import logging
 import os
 import os.path
 from pathlib import Path
+from sys import exit
 from time import sleep
 
 import requests
@@ -53,8 +55,8 @@ def resize_and_convert_images(width=1080):
             os.remove(src_filepath)
             rgb_image.save(dst_filepath, format='JPEG')
 
-        except IOError as e:
-            print(e)
+        except IOError:
+            logging.warning("Can't process image")
 
 
 def post_images_to_instagram(bot, timeout=10):
@@ -66,7 +68,7 @@ def post_images_to_instagram(bot, timeout=10):
         bot.upload_photo(img_path, caption=caption)
 
         if bot.api.last_response.status_code != 200:
-            print(bot.api.last_response)
+            raise RuntimeError('Not OK response')
 
         sleep(timeout)
 
@@ -76,11 +78,15 @@ def main():
 
     resize_and_convert_images()
 
-    # login, password = get_login_password()
-    #
-    # bot = Bot()
-    # bot.login(username=login, password=password, ask_for_code=True)
-    # post_images_to_instagram(bot)
+    login, password = get_login_password()
+
+    bot = Bot()
+    bot.login(username=login, password=password, ask_for_code=True)
+
+    try:
+        post_images_to_instagram(bot)
+    except RuntimeError:
+        exit(1)
 
 
 if __name__ == '__main__':
