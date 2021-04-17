@@ -1,10 +1,12 @@
 import logging
 import os
+import urllib3
 from urllib.parse import unquote, urlsplit
 
 import requests
 
 from main import download_img
+from main import IMAGES_DIR
 
 
 def get_file_extension(file_url):
@@ -29,7 +31,7 @@ def download_hubble_image(image_id):
     image_url = get_hubble_image_urls(image_id)[-1]
     ext = get_file_extension(image_url)
     filename = f'hubble_{image_id}{ext}'
-    download_img(image_url, filename)
+    download_img(image_url, filename, IMAGES_DIR)
 
 
 def download_hubble_collection(collection='all'):
@@ -45,4 +47,5 @@ def download_hubble_collection(collection='all'):
 
 
 if __name__ == '__main__':
+    urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
     download_hubble_collection('spacecraft')

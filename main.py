@@ -31,8 +31,8 @@ def get_login_password():
     return login, password
 
 
-def download_img(url, filename):
-    full_path = f'{IMAGES_DIR}{filename}'
+def download_img(url, filename, images_dir):
+    full_path = f'{images_dir}{filename}'
 
     response = requests.get(url, verify=False)
     response.raise_for_status()
@@ -41,12 +41,12 @@ def download_img(url, filename):
         file.write(response.content)
 
 
-def resize_and_convert_images(width=1080):
-    filenames = os.listdir(IMAGES_DIR)
+def resize_and_convert_images(images_dir, width=1080):
+    filenames = os.listdir(images_dir)
     for filename in filenames:
-        src_filepath = f'{IMAGES_DIR}{filename}'
+        src_filepath = f'{images_dir}{filename}'
         name, ext = os.path.splitext(filename)
-        dst_filepath = f'{IMAGES_DIR}{name}.jpg'
+        dst_filepath = f'{images_dir}{name}.jpg'
 
         try:
             image = Image.open(src_filepath)
@@ -59,11 +59,10 @@ def resize_and_convert_images(width=1080):
             logging.warning("Can't process image")
 
 
-def post_images_to_instagram(bot, timeout=10):
-    filenames = os.listdir(IMAGES_DIR)
+def post_images_to_instagram(bot, images_dir, caption, timeout=10):
+    filenames = os.listdir(images_dir)
     for filename in filenames:
-        img_path = f'{IMAGES_DIR}{filename}'
-        caption = 'another hubble image'
+        img_path = f'{images_dir}{filename}'
 
         bot.upload_photo(img_path, caption=caption)
 
@@ -78,15 +77,16 @@ def main():
 
     resize_and_convert_images()
 
-    login, password = get_login_password()
-
-    bot = Bot()
-    bot.login(username=login, password=password, ask_for_code=True)
-
-    try:
-        post_images_to_instagram(bot)
-    except RuntimeError:
-        exit(1)
+    # login, password = get_login_password()
+    #
+    # bot = Bot()
+    # bot.login(username=login, password=password, ask_for_code=True)
+    #
+    # try:
+    #     caption = 'Just another space picture'
+    #     post_images_to_instagram(bot, IMAGES_DIR, caption)
+    # except RuntimeError:
+    #     exit(1)
 
 
 if __name__ == '__main__':
