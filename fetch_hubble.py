@@ -27,14 +27,14 @@ def get_hubble_image_urls(image_id):
     return [f'https:{image_file["file_url"]}' for image_file in image_files]
 
 
-def download_hubble_image(image_id):
+def download_hubble_image(image_id, images_dir):
     image_url = get_hubble_image_urls(image_id)[-1]
     ext = get_file_extension(image_url)
     filename = f'hubble_{image_id}{ext}'
-    download_img(image_url, filename, IMAGES_DIR)
+    download_img(image_url, filename, images_dir)
 
 
-def download_hubble_collection(collection='all'):
+def download_hubble_collection(images_dir, collection='all'):
     url = f'http://hubblesite.org/api/v3/images/{collection}'
     response = requests.get(url)
     response.raise_for_status()
@@ -43,9 +43,9 @@ def download_hubble_collection(collection='all'):
 
     for img_id in img_ids:
         logging.info(f'Downloading {img_id}...')
-        download_hubble_image(img_id)
+        download_hubble_image(img_id, images_dir)
 
 
 if __name__ == '__main__':
     urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
-    download_hubble_collection('spacecraft')
+    download_hubble_collection(IMAGES_DIR, 'spacecraft')
