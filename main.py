@@ -87,7 +87,7 @@ def main():
     try:
         post_images_to_instagram(bot, IMAGES_DIR, caption)
     except RuntimeError:
-        exit(1)
+        exit('Image posting error, try again later.')
 
 
 if __name__ == '__main__':
