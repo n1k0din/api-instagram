@@ -41,7 +41,7 @@ def download_img(url, filename, images_dir):
         file.write(response.content)
 
 
-def resize_and_convert_images(images_dir, width=1080):
+def resize_and_convert_images(images_dir, side_size=1080):
     filenames = os.listdir(images_dir)
     for filename in filenames:
         src_filepath = f'{images_dir}{filename}'
@@ -51,7 +51,7 @@ def resize_and_convert_images(images_dir, width=1080):
         try:
             image = Image.open(src_filepath)
             rgb_image = image.convert('RGB')
-            rgb_image.thumbnail((width, width))
+            rgb_image.thumbnail((side_size, side_size))
             os.remove(src_filepath)
             rgb_image.save(dst_filepath, format='JPEG')
 
